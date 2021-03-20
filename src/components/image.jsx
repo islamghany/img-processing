@@ -129,7 +129,7 @@ const Image = ()=>{
          <p>Drag & Drop your Images here</p>
          <Divider />
          <p>or</p>
-         <Button onClick={open}>Upload SVGs</Button>
+         <Button onClick={open}>Upload Images</Button>
        </div>}
        <input {...getInputProps()} />
         {isDragActive && (
@@ -137,7 +137,7 @@ const Image = ()=>{
             <div className="icon">
               <Fileimage />
             </div>
-            <h3>Drag Your SVGs here</h3>
+            <h3>Drag Your Images here</h3>
           </div>
         )}
         {rejectedFiles && <p>error there are error in upload files</p>}
