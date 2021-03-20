@@ -17,8 +17,12 @@ const Container = styled.div`
     position: absolute;
     top: 0;
     display: block;
+    &.hidden{
+      z-index:-1;
+    }
   }
 `
+let mounted = false
 let data = {};
 let edited = false
 const Filter = ({img})=>{
@@ -27,9 +31,8 @@ const Filter = ({img})=>{
   console.log(LenaJS)
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
-  const [up,setUp] = useState();
+  const [up,setUp] = useState(true);
   const filtering = (name,add)=>{
-    console.log(name)
     if(add === true && !data[name]){
       var filter = LenaJS[name];
       if(edited){
@@ -40,6 +43,7 @@ const Filter = ({img})=>{
        LenaJS.filterImage(canvasRef.current, filter, imgRef.current);
       // LenaJS.histogram(imgRef.current)
        edited=true
+       setUp(true)
      }
       data[name]=true
     }
@@ -49,11 +53,17 @@ const Filter = ({img})=>{
       if(filter.name) filtering(filter.name,filter.add);
   },[filter])
   useEffect(()=>{
-    edited = false  
+    console.log(img)
+    if(!mounted){
+      mounted = true;
+      return
+    }
+     edited=false;
+     setUp(false)
   },[img])
   return <Container>
      <img id="original-image" ref={imgRef} src={img} />
-     <canvas id="filtered-image" ref={canvasRef}></canvas>
+    <canvas id="filtered-image" className={edited || up ? '':'hidden'} ref={canvasRef}></canvas>
    </Container>
 
 }
