@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import {useRef,useEffect,useState} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
+import {Button} from 'rsuite'
+import download from 'downloadjs'
 const LenaJS = require('lena.js');
 
 
@@ -27,8 +29,8 @@ let data = {};
 let edited = false
 const Filter = ({img})=>{
   const filter = useSelector(state=>state.filter)
+  const save = useSelector(state=>state.download)
   const dispatch = useDispatch();
-  console.log(LenaJS)
   const imgRef = useRef(null);
   const canvasRef = useRef(null);
   const [up,setUp] = useState(true);
@@ -54,13 +56,21 @@ const Filter = ({img})=>{
         type:'remove'
       })
     }
+    dispatch({
+      type:'filtred_img',
+      payload:canvasRef.current.toDataURL("image/png")
+    })
    dispatch({type:"loading",payload:false});
+  }
+  const saveImg=()=>{
+    let x = canvasRef.current.toDataURL("image/png");
+    download( x, `img_proc${Math.random() * 99999}.png`, "image/png" );
+
   }
   useEffect(()=>{
       if(filter.name || filter?.add === false) filtering(filter.name,filter.add);
   },[filter])
   useEffect(()=>{
-    console.log(img)
     if(!mounted){
       mounted = true;
       return
@@ -71,10 +81,13 @@ const Filter = ({img})=>{
      edited=false;
      setUp(false)
   },[img])
+  useEffect(()=>{
+    if(save) saveImg();
+  },[save])
   return <Container>
      <img id="original-image" ref={imgRef} src={img} />
     <canvas id="filtered-image" className={edited || up ? '':'hidden'} ref={canvasRef}></canvas>
-   </Container>
+ </Container>
 
 }
 

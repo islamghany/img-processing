@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.8.3",
+    "downloadjs": "^1.4.7",
     "lena.js": "^0.8.0",
     "prettier": "^2.2.1",
     "react": "^17.0.1",

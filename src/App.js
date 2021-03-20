@@ -32,8 +32,7 @@ const ControlContainer = styled.div`
 const RemoveFilters = memo(({hasFilters})=>{
   const dispatch = useDispatch();
   if(!hasFilters) return null
-  return <div style={{textAlign:'center'}}>
-    <RButton
+  return <RButton
       onClick={()=>{
         dispatch({
         type:'remove_filter'
@@ -48,12 +47,35 @@ const RemoveFilters = memo(({hasFilters})=>{
        appearance="primary">
      Remove All filters
   </RButton>
-</div>
+})
+const SaveToFile = memo(({hasFilters})=>{
+  const dispatch = useDispatch();
+  if(!hasFilters) return null
+  return <RButton
+      onClick={()=>{
+        dispatch({
+        type:'save_photo',
+        payload:Math.random() * 193
+      }
+    )
+  }
+  }
+       appearance="primary">
+     Download Photo
+  </RButton>
+
 })
 const AppliedFilters = ()=>{
   const filters = useSelector(state=>state.filtersList)
   return <>
+  <div style={{
+      display:'flex',
+      padding:'0 2rem',
+      justifyContent:'space-between'
+    }}>
     <RemoveFilters hasFilters={filters.length > 0}/>
+    <SaveToFile hasFilters={filters.length > 0}/>
+    </div>
    <Container>
     {filters.map(item => <Tag key={item.name} color="violet">{item.name}</Tag>)}
   </Container>

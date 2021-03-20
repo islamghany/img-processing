@@ -92,6 +92,7 @@ const Image = ()=>{
   function setupReader(img) {
     const reader = new FileReader();
     reader.onload = () => {
+      console.log(reader)
       setPreviewUrl(reader.result);
     };
     reader.readAsDataURL(img);

@@ -10,8 +10,16 @@ const filter = (state={},action)=>{
     case 'remove_filter':
       return {
         add:false,
-        
+
       }
+    default: return state
+
+  }
+}
+const download = (state=null,action)=>{
+  switch (action.type) {
+    case 'save_photo':
+      return action.payload
     default: return state
 
   }
@@ -46,4 +54,4 @@ const img = (state=null,action)=>{
 
   }
 }
-export default createStore(combineReducers({img,filter,loading,filtersList}))
+export default createStore(combineReducers({img,filter,download,loading,filtersList}))
