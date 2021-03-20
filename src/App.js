@@ -6,65 +6,16 @@ import {useSelector,useDispatch} from 'react-redux'
 import Button from './components/button';
 import Loader from './components/loader';
 import Image from './components/image'
-const LenaJS = require('lena.js');
-
-
-const Container = styled.div`
-  margin: 0 auto;
-  position: relative;
-  width:400px;
-  img{
-    width:100%;
-    object-fit: cover;
-  }
-  #filtered-image{
-    left: 0;
-    position: absolute;
-    top: 0;
-    display: block;
-  }
-`
-let data = {};
-let edited = false
-const Filter = ()=>{
-  const filter = useSelector(state=>state.filter)
-  const dispatch = useDispatch();
-  console.log(LenaJS)
-  const imgRef = useRef(null);
-  const canvasRef = useRef(null);
-  const [up,setUp] = useState();
-  const filtering = (name,add)=>{
-    console.log(name)
-    if(add === true && !data[name]){
-      var filter = LenaJS[name];
-      if(edited){
-        LenaJS.redrawCanvas(canvasRef.current, filter);
-      }
-      else{
-       var filter = LenaJS[name];
-       LenaJS.filterImage(canvasRef.current, filter, imgRef.current);
-      // LenaJS.histogram(imgRef.current)
-       edited=true
-     }
-      data[name]=true
-    }
-   dispatch({type:"loading",payload:false});
-  }
-  useEffect(()=>{
-      if(filter.name) filtering(filter.name,filter.add);
-  },[filter])
-  return <Container>
-     <img id="original-image" ref={imgRef} src="lena.jpg" />
-     <canvas id="filtered-image" ref={canvasRef}></canvas>
-   </Container>
-
-}
-
+import {Tag} from 'rsuite'
 const AppWrapper = styled.div`
   padding: 2rem;
   display: flex;
   justify-content: space-between;
   gap:2rem;
+`
+const Container = styled.div`
+  padding: 2rem;
+  display: flex;
 `
 const ControlContainer = styled.div`
 .content{
@@ -78,6 +29,12 @@ const ControlContainer = styled.div`
 
   }
 `
+const AppliedFilters = ()=>{
+  const filters = useSelector(state=>state.filtersList)
+  return <Container>
+    {filters.map(item => <Tag key={item.name} color="violet">{item.name}</Tag>)}
+  </Container>
+}
 const EdegDetection = ()=>{
   return <ControlContainer>
     <h4>
@@ -122,7 +79,10 @@ function App() {
     <GlobalStyle />
     <Loader />
     <div className="App">
-       <h2>
+       <h2 style={{
+           padding:'1rem',
+           textAlign:'center'
+         }}>
         Image Processing
       </h2>
       <AppWrapper>
@@ -130,6 +90,7 @@ function App() {
         <Image />
        <PixelToPixel />
       </AppWrapper>
+      <AppliedFilters />
     </div>
     </ThemeProvider>
   );

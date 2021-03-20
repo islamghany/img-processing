@@ -3,7 +3,10 @@ import "cropperjs/dist/cropper.css";
 import styled from 'styled-components'
 import {useState,useRef,memo} from 'react'
 import {Button} from 'rsuite'
+import {useDispatch} from 'react-redux';
+
 const ImageCrop =memo ( ({ previewUrl, setImgData, closePreviewImage }) => {
+  const dispatch = useDispatch();
   const [crop, setCrop] = useState(previewUrl);
   const [cropper, setCropper] = useState();
   const getCropData = () => {
@@ -44,6 +47,10 @@ const ImageCrop =memo ( ({ previewUrl, setImgData, closePreviewImage }) => {
                   color="green"
                   className="btn btn--contained-success"
                   onClick={() => {
+                    dispatch({
+                      type:'image',
+                      payload:Math.random() * 10000
+                    })
                     getCropData();
                     closePreviewImage();
                   }}

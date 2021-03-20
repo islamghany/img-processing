@@ -1,27 +1,29 @@
 import {Button} from 'rsuite';
-import {useDispatch} from 'react-redux';
-import {useState} from 'react'
+import {useDispatch,useSelector} from 'react-redux';
+import {useState,useEffect} from 'react'
 const ButtonWrapper = ({filter})=>{
   const dispatch = useDispatch();
+  const img = useSelector(state=>state.img)
   const [isActive,setIsActive] = useState(false);
+  useEffect(()=>{
+    if(isActive)
+    setIsActive(false)
+  },[img])
   const handleClick = ()=>{
-    dispatch({type:"loading",payload:true});
-    if(isActive){
-      setIsActive(false);
-      dispatch({
-        type:'remove_filter',
-        payload:filter
-      })
-    }
-    else {
+    if(!isActive && img){
+      dispatch({type:"loading",payload:true});
       setIsActive(true);
       dispatch({
         type:'add_filter',
         payload:filter
       })
+      dispatch({
+        type:'add',
+        payload:filter
+      })
     }
   }
-  return <Button style={{textTransform:'capitalize'}} onClick={handleClick} appearance={`${isActive ? 'primary' : 'default'}`}>
+  return <Button style={{textTransform:'capitalize'}} onClick={handleClick}>
     {filter}
   </Button>
 }
