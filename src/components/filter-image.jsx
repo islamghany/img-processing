@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {useRef,useEffect,useState} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
-import {Button} from 'rsuite'
+import {Button,Alert} from 'rsuite'
 import download from 'downloadjs'
 const LenaJS = require('lena.js');
 
@@ -65,7 +65,12 @@ const Filter = ({img})=>{
   const saveImg=()=>{
     let x = canvasRef.current.toDataURL("image/png");
     download( x, `img_proc${Math.random() * 99999}.png`, "image/png" );
-
+     Alert.success('image has been uploaded')
+     dispatch({
+     type:'save_photo',
+     payload:null
+   }
+ )
   }
   useEffect(()=>{
       if(filter.name || filter?.add === false) filtering(filter.name,filter.add);
