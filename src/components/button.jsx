@@ -8,7 +8,7 @@ const ButtonWrapper = ({filter})=>{
   useEffect(()=>{
     if(isActive)
     setIsActive(false)
-  },[img])
+  },[img,setIsActive])
   const handleClick = ()=>{
     if(!isActive && img){
       dispatch({type:"loading",payload:true});

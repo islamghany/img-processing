@@ -11,7 +11,7 @@ const ImageCrop =memo ( ({ previewUrl, setImgData, closePreviewImage }) => {
   const [cropper, setCropper] = useState();
   const getCropData = () => {
     if (typeof cropper !== "undefined") {
-      setImgData(cropper.getCroppedCanvas().toDataURL());
+      setImgData(cropper.getCroppedCanvas().toDataURL(),cropper.cropBoxData.naturalWidth);
     }
   };
   if(!previewUrl) return null

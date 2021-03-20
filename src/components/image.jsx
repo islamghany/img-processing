@@ -11,7 +11,7 @@ function Fileimage(props) {
 const UploaderContainer = styled.div`
     margin: 0 auto;
     position: relative;
-    width:400px;
+    flex:1;
 
   .container {
     flex: 1;
@@ -84,6 +84,7 @@ function UploadIcon(props) {
 const Image = ()=>{
   const [previewUrl, setPreviewUrl] = useState(null);
   const [cropData, setCropData] = useState();
+  const [width, setWidth] = useState('100')
   const imgRef = useRef(null);
 
   const onDrop = useCallback((acceptedImage) => {
@@ -92,7 +93,6 @@ const Image = ()=>{
   function setupReader(img) {
     const reader = new FileReader();
     reader.onload = () => {
-      console.log(reader)
       setPreviewUrl(reader.result);
     };
     reader.readAsDataURL(img);
@@ -114,9 +114,13 @@ const Image = ()=>{
     noKeyboard: true,
   });
   return <UploaderContainer>
-    {previewUrl?.length && <ImageCrop closePreviewImage={()=>setPreviewUrl(null)}  previewUrl={previewUrl} setImgData={(e)=>setCropData(e)} />}
+    {previewUrl?.length && <ImageCrop closePreviewImage={()=>setPreviewUrl(null)}  previewUrl={previewUrl} setImgData={(e,w)=>
+      {setCropData(e)
+       setWidth(w)
+      }
+      } />}
       <div className="container" {...getRootProps()}>
-       {cropData ? <FilterImage img={cropData} /> :
+       {cropData ? <FilterImage img={cropData} width={width} /> :
         <div className="box">
          <div className="icon">
            <UploadIcon />

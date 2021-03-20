@@ -9,11 +9,6 @@ const LenaJS = require('lena.js');
 const Container = styled.div`
   margin: 0 auto;
   position: relative;
-  width:400px;
-  img{
-    width:100%;
-    object-fit: cover;
-  }
   #filtered-image{
     left: 0;
     position: absolute;
@@ -27,7 +22,7 @@ const Container = styled.div`
 let mounted = false
 let data = {};
 let edited = false
-const Filter = ({img})=>{
+const Filter = ({img,width})=>{
   const filter = useSelector(state=>state.filter)
   const save = useSelector(state=>state.download)
   const dispatch = useDispatch();
@@ -90,7 +85,7 @@ const Filter = ({img})=>{
     if(save) saveImg();
   },[save])
   return <Container>
-     <img id="original-image" ref={imgRef} src={img} />
+     <img id="original-image" width={width} height={width} ref={imgRef} src={img} />
     <canvas id="filtered-image" className={edited || up ? '':'hidden'} ref={canvasRef}></canvas>
  </Container>
 

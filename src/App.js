@@ -1,12 +1,12 @@
 import styled,{ThemeProvider} from 'styled-components';
 import GlobalStyle from './utils/GlobalStyle'
 import theme from './utils/theme'
-import {useRef,useEffect,useState,memo} from 'react'
+import {memo} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import Button from './components/button';
 import Loader from './components/loader';
 import Image from './components/image'
-import {Tag,Button as RButton} from 'rsuite'
+import {Tag,Button as RButton,Icon} from 'rsuite'
 const AppWrapper = styled.div`
   padding: 2rem;
   display: flex;
@@ -18,16 +18,20 @@ const Container = styled.div`
   display: flex;
 `
 const ControlContainer = styled.div`
+  width:300px;
 .content{
   display:flex;
   flex-wrap:wrap;
   align-items:flex-start;
-  gap:.6rem;
-}
-  flex:1;
-  h4{
-
+  gap:.2rem;
+  &.pd{
+    padding:.5rem 0;
   }
+}
+ h5:nth-of-type(2){
+   margin-top:1rem;
+ }
+
 `
 const RemoveFilters = memo(({hasFilters})=>{
   const dispatch = useDispatch();
@@ -44,7 +48,7 @@ const RemoveFilters = memo(({hasFilters})=>{
     })
   }
   }
-       appearance="primary">
+      color="red">
      Remove All filters
   </RButton>
 })
@@ -61,31 +65,27 @@ const SaveToFile = memo(({hasFilters})=>{
   }
   }
        appearance="primary">
-     Download Photo
+     <Icon icon="save"  /> Download
   </RButton>
 
 })
 const AppliedFilters = ()=>{
   const filters = useSelector(state=>state.filtersList)
-  return <>
-  <div style={{
-      display:'flex',
-      padding:'0 2rem',
-      justifyContent:'space-between'
-    }}>
+  return <ControlContainer>
+  <div className="content pd" >
     <RemoveFilters hasFilters={filters.length > 0}/>
     <SaveToFile hasFilters={filters.length > 0}/>
     </div>
-   <Container>
+   <div className="content">
     {filters.map(item => <Tag key={item.name} color="violet">{item.name}</Tag>)}
-  </Container>
- </>
+  </div>
+ </ControlContainer>
 }
 const EdegDetection = ()=>{
   return <ControlContainer>
-    <h4>
+    <h5>
       Edge/Line Detection
-    </h4><br />
+    </h5>
   <div className="content">
     <Button filter="gaussian" />
     <Button filter="bigGaussian" />
@@ -101,15 +101,10 @@ const EdegDetection = ()=>{
     <Button filter="sobelVertical" />
     <Button filter="noise" />
     </div>
-  </ControlContainer>
-
-}
-const PixelToPixel = ()=>{
-  return <ControlContainer>
-    <h4>
+    <h5>
       Pixel To Pixel
-    </h4><br />
-      <div className="content">
+    </h5>
+    <div className="content">
     <Button filter="grayscale" />
     <Button filter="sepia" />
     <Button filter="blue" />
@@ -117,7 +112,9 @@ const PixelToPixel = ()=>{
     <Button filter="invert" />
     <Button filter="mirror" />
     </div>
+    <AppliedFilters />
   </ControlContainer>
+
 }
 function App() {
   return (
@@ -134,9 +131,7 @@ function App() {
       <AppWrapper>
         <EdegDetection />
         <Image />
-        <PixelToPixel />
       </AppWrapper>
-      <AppliedFilters />
     </div>
     </ThemeProvider>
   );
