@@ -33,7 +33,7 @@ const Filter = ({img})=>{
   const canvasRef = useRef(null);
   const [up,setUp] = useState(true);
   const filtering = (name,add)=>{
-    if(add === true && !data[name]){
+    if(add === true){
       var filter = LenaJS[name];
       if(edited){
         LenaJS.redrawCanvas(canvasRef.current, filter);
@@ -47,10 +47,17 @@ const Filter = ({img})=>{
      }
       data[name]=true
     }
+    if(add === false){
+      edited=false;
+      setUp(false);
+      dispatch({
+        type:'remove'
+      })
+    }
    dispatch({type:"loading",payload:false});
   }
   useEffect(()=>{
-      if(filter.name) filtering(filter.name,filter.add);
+      if(filter.name || filter?.add === false) filtering(filter.name,filter.add);
   },[filter])
   useEffect(()=>{
     console.log(img)
@@ -58,6 +65,9 @@ const Filter = ({img})=>{
       mounted = true;
       return
     }
+    dispatch({
+      type:'remove'
+    })
      edited=false;
      setUp(false)
   },[img])

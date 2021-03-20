@@ -10,7 +10,7 @@ const filter = (state={},action)=>{
     case 'remove_filter':
       return {
         add:false,
-        name:action.payload
+        
       }
     default: return state
 

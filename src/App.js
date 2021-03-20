@@ -1,12 +1,12 @@
 import styled,{ThemeProvider} from 'styled-components';
 import GlobalStyle from './utils/GlobalStyle'
 import theme from './utils/theme'
-import {useRef,useEffect,useState} from 'react'
+import {useRef,useEffect,useState,memo} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import Button from './components/button';
 import Loader from './components/loader';
 import Image from './components/image'
-import {Tag} from 'rsuite'
+import {Tag,Button as RButton} from 'rsuite'
 const AppWrapper = styled.div`
   padding: 2rem;
   display: flex;
@@ -29,11 +29,35 @@ const ControlContainer = styled.div`
 
   }
 `
+const RemoveFilters = memo(({hasFilters})=>{
+  const dispatch = useDispatch();
+  if(!hasFilters) return null
+  return <div style={{textAlign:'center'}}>
+    <RButton
+      onClick={()=>{
+        dispatch({
+        type:'remove_filter'
+      }
+    )
+    dispatch({
+      type:'image',
+      payload:Math.random() * 10000
+    })
+  }
+  }
+       appearance="primary">
+     Remove All filters
+  </RButton>
+</div>
+})
 const AppliedFilters = ()=>{
   const filters = useSelector(state=>state.filtersList)
-  return <Container>
+  return <>
+    <RemoveFilters hasFilters={filters.length > 0}/>
+   <Container>
     {filters.map(item => <Tag key={item.name} color="violet">{item.name}</Tag>)}
   </Container>
+ </>
 }
 const EdegDetection = ()=>{
   return <ControlContainer>
@@ -88,7 +112,7 @@ function App() {
       <AppWrapper>
         <EdegDetection />
         <Image />
-       <PixelToPixel />
+        <PixelToPixel />
       </AppWrapper>
       <AppliedFilters />
     </div>
