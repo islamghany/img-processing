@@ -5,6 +5,7 @@ import {useRef,useEffect,useState} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import Button from './components/button';
 import Loader from './components/loader';
+import Image from './components/image'
 const LenaJS = require('lena.js');
 
 
@@ -126,7 +127,7 @@ function App() {
       </h2>
       <AppWrapper>
         <EdegDetection />
-        <Filter />
+        <Image />
        <PixelToPixel />
       </AppWrapper>
     </div>
