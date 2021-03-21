@@ -102,7 +102,7 @@ const EdegDetection = () => {
         <Button filter="sobelHorizontal" />
         <Button filter="sobelVertical" />
         <Button filter="noise" />
-      <Button filter="canny" />
+        <Button filter="canny" />
       </div>
       <h5>Pixel To Pixel</h5>
       <div className="content">

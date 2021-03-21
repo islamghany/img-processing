@@ -115,8 +115,9 @@ const Image = ()=>{
   });
   return <UploaderContainer>
     {previewUrl?.length && <ImageCrop closePreviewImage={()=>setPreviewUrl(null)}  previewUrl={previewUrl} setImgData={(e,w)=>
-      {setCropData(e)
-       setWidth(w)
+      {
+        setCropData(e)
+        setWidth(w)
       }
       } />}
       <div className="container" {...getRootProps()}>
