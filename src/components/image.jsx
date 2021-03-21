@@ -129,7 +129,7 @@ const Image = ()=>{
          <p>Drag & Drop your Images here</p>
          <Divider />
          <p>or</p>
-         <Button onClick={open}>Upload SVGs</Button>
+       <Button onClick={open}>Upload Image</Button>
        </div>}
        <input {...getInputProps()} />
         {isDragActive && (
